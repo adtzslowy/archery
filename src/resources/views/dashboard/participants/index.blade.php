@@ -19,6 +19,13 @@
                 </p>
             </div>
 
+            <a href="{{ route('partisipan.create') }}">
+                <x-ui.button type="button">
+                    <i data-lucide="plus" class="size-4"></i>
+                    Add Participant
+                </x-ui.button>
+            </a>
+
         </div>
 
 

@@ -93,7 +93,7 @@ class ParticipantController extends Controller
         $participant->update($validated);
 
         return redirect()
-            ->route('participants.show', $participant)
+            ->route('partisipan.show', $participant)
             ->with('success', 'Participant updated successfully.');
     }
 
