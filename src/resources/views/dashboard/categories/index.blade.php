@@ -200,9 +200,7 @@
                                                         Delete category
                                                     </span>
                                                 </button>
-
                                             </form>
-
                                         </div>
                                     </td>
                                 </tr>
