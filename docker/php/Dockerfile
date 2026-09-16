@@ -17,6 +17,12 @@ RUN apt-get update && apt-get install -y \
     zip \
     && rm -rf /var/lib/apt/lists/*
 
+RUN mkdir -p /tmp/php \
+    && chmod 1777 /tmp/php
+
+RUN echo "sys_temp_dir=/tmp/php" > /usr/local/etc/php/conf.d/temp.ini \
+    && echo "upload_tmp_dir=/tmp/php" >> /usr/local/etc/php/conf.d/temp.ini
+
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
