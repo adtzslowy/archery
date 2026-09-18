@@ -82,7 +82,6 @@
                     <span>
                         Participants
                     </span>
-
                 </a>
 
 
