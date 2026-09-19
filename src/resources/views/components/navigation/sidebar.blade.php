@@ -322,6 +322,30 @@
 
                 </details>
 
+
+                @role('master')
+                    <div class="pt-5">
+
+                        <p class="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                            System
+                        </p>
+
+                        <a href="{{ route('users.index') }}"
+                            class="group flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors
+            {{ request()->routeIs('users.*')
+                ? 'bg-muted text-foreground'
+                : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground' }}">
+
+                            <i data-lucide="user-cog" class="size-4 shrink-0"></i>
+
+                            <span>
+                                User Management
+                            </span>
+
+                        </a>
+
+                    </div>
+                @endrole
             </div>
 
         </div>
@@ -333,26 +357,57 @@
         USER / FOOTER
     ========================================================== --}}
 
-    <div class="border-t p-3">
+    <div class="border-t p-3" x-data="{ open: false }">
 
-        <div class="flex items-center gap-3 rounded-md px-3 py-2">
+        <div class="relative">
 
-            <div class="flex size-9 items-center justify-center rounded-full bg-muted font-medium">
+            {{-- Trigger --}}
+            <button type="button" @click="open = !open" @click.outside="open = false"
+                class="flex w-full items-center gap-3 rounded-md px-3 py-2 text-left transition hover:bg-muted">
 
-                {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
+                <div class="flex size-9 items-center justify-center rounded-full bg-muted font-medium">
+                    {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
+                </div>
 
-            </div>
+                <div class="min-w-0 flex-1">
+                    <p class="truncate text-sm font-medium">
+                        {{ auth()->user()->name ?? 'User' }}
+                    </p>
 
+                    <p class="truncate text-xs text-muted-foreground">
+                        {{ auth()->user()->email ?? '' }}
+                    </p>
+                </div>
 
-            <div class="min-w-0 flex-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 text-muted-foreground transition"
+                    :class="open ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m19 9-7 7-7-7" />
+                </svg>
 
-                <p class="truncate text-sm font-medium">
-                    {{ auth()->user()->name ?? 'User' }}
-                </p>
+            </button>
 
-                <p class="truncate text-xs text-muted-foreground">
-                    {{ auth()->user()->email ?? '' }}
-                </p>
+            {{-- Dropdown --}}
+            <div x-show="open" x-cloak x-transition
+                class="absolute bottom-full left-0 z-50 mb-2 w-full rounded-md border bg-white p-1 shadow-lg">
+
+                <div class="min-w-0 border-b px-3 py-2">
+                    <p class="truncate text-sm font-medium">
+                        {{ auth()->user()->name ?? 'User' }}
+                    </p>
+
+                    <p class="truncate text-xs text-muted-foreground">
+                        {{ auth()->user()->email ?? '' }}
+                    </p>
+                </div>
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit"
+                        class="block w-full rounded-md px-3 py-2 text-left text-sm text-red-600 transition hover:bg-red-50">
+                        Logout
+                    </button>
+                </form>
 
             </div>
 

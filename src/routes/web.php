@@ -4,11 +4,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompetitionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MatchController;
 use App\Http\Controllers\MatchSetupController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\ScoringController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +19,18 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [LandingController::class, 'index'])
+    ->name('landing.home');
+
+Route::get('/about', [LandingController::class, 'about'])
+    ->name('landing.about');
+
+Route::get('/schedule', [LandingController::class, 'schedule'])
+    ->name('landing.schedule');
+
+Route::get('/brackets', [LandingController::class, 'brackets'])
+    ->name('landing.brackets');
 
 Route::get('/login', [AuthController::class, 'showLogin'])
     ->name('login');
@@ -306,4 +317,8 @@ Route::middleware(['auth', 'permission:result.view'])->group(function () {
     )
         ->name('result.index');
 
+});
+
+Route::middleware(['auth', 'permission:user.view'])->group(function () {
+    Route::resource('/dashboard/users', UserController::class)->names('users');
 });
